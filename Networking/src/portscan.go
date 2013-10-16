@@ -23,7 +23,7 @@ func main() {
 	to, toerr := time.ParseDuration("3s");
 	if toerr != nil {}
 	for i := lport; i <= uport; i++ {
-		fmt.Printf("Scanning port %d\n", i);
+		//fmt.Printf("Scanning port %d\n", i);
 		conn, err := net.DialTimeout("tcp", ipaddr + ":" + strconv.Itoa(i), to);
 		if err == nil {
 			fmt.Printf("%d open on TCP.\n", i);
