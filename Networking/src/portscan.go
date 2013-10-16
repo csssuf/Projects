@@ -20,7 +20,7 @@ func main() {
 	if ce1 != nil || ce2 != nil {
 		fmt.Printf("Invalid port received.");
 	}
-	to, toerr := time.ParseDuration("3s");
+	to, toerr := time.ParseDuration("300ms");
 	if toerr != nil {}
 	for i := lport; i <= uport; i++ {
 		//fmt.Printf("Scanning port %d\n", i);
