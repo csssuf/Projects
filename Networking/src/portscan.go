@@ -8,6 +8,16 @@ import (
 	"time"
 )
 
+func checkPort(p int, address string, t time.Duration, chanind int, chans []chan int) {
+	conn, err := net.DialTimeout("tcp", address + ":" + strconv.Itoa(p), t);
+	if err == nil {
+		fmt.Printf("%d open on TCP.\n", p);
+		chans[chanind] <- 0;
+	}
+	if conn == nil {}
+	//fmt.Printf("%d Nope %d\n", p, chanind);
+	chans[chanind] <- 0;
+}
 func main() {
 	args := os.Args;
 	if len(args) != 4 {
@@ -21,14 +31,16 @@ func main() {
 		fmt.Printf("Invalid port received.");
 	}
 	to, toerr := time.ParseDuration("300ms");
+	var quits_received = make([]chan int, 500, 1000);
+	for quit := range quits_received {
+		quits_received[quit] = make(chan int)
+	}
 	if toerr != nil {}
 	for i := lport; i <= uport; i++ {
+		go checkPort(i, ipaddr, to, uport - i, quits_received);
 		//fmt.Printf("Scanning port %d\n", i);
-		conn, err := net.DialTimeout("tcp", ipaddr + ":" + strconv.Itoa(i), to);
-		if err == nil {
-			fmt.Printf("%d open on TCP.\n", i);
-			continue;
-		}
-		if conn == nil {}
+	}
+	for j := lport; j <= uport; j++ {
+		<-quits_received[uport - j];
 	}
 }
