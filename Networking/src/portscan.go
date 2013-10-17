@@ -15,9 +15,9 @@ func checkPort(p int, address string, t time.Duration, chanind int, chans []chan
 		chans[chanind] <- 0;
 	}
 	if conn == nil {}
-	//fmt.Printf("%d Nope %d\n", p, chanind);
 	chans[chanind] <- 0;
 }
+
 func main() {
 	args := os.Args;
 	if len(args) != 4 {
@@ -28,17 +28,16 @@ func main() {
 	lport, ce1 := strconv.Atoi(args[2]);
 	uport, ce2 := strconv.Atoi(args[3]);
 	if ce1 != nil || ce2 != nil {
-		fmt.Printf("Invalid port received.");
+		fmt.Printf("Invalid port received.\n");
 	}
 	to, toerr := time.ParseDuration("300ms");
-	var quits_received = make([]chan int, 500, 1000);
+	var quits_received = make([]chan int, 500, 10000);
 	for quit := range quits_received {
 		quits_received[quit] = make(chan int)
 	}
 	if toerr != nil {}
 	for i := lport; i <= uport; i++ {
 		go checkPort(i, ipaddr, to, uport - i, quits_received);
-		//fmt.Printf("Scanning port %d\n", i);
 	}
 	for j := lport; j <= uport; j++ {
 		<-quits_received[uport - j];
